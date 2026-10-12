@@ -1,0 +1,32 @@
+{
+  "labels": [
+    "add_to_list",
+    "compare",
+    "deals",
+    "find",
+    "greeting",
+    "locate",
+    "recipe",
+    "recommend"
+  ],
+  "dim": 4096,
+  "framework": "TensorFlow 2.21.0",
+  "train_size": 4285,
+  "holdout_size": 756,
+  "holdout_accuracy": 1.0,
+  "handwritten_size": 137,
+  "handwritten_accuracy": {
+    "model_only": 0.9854,
+    "rules_only": 0.8686,
+    "model_plus_rules": 1.0
+  },
+  "handwritten_accuracy_by_style": {
+    "en": 1.0,
+    "hi": 1.0,
+    "hinglish": 1.0,
+    "te": 1.0,
+    "tenglish": 1.0
+  },
+  "top_confusions": [],
+  "note": "Holdout = random 15% of generated sentences. Handwritten = natural sentences written separately and never used for training; the app uses model_plus_rules."
+}

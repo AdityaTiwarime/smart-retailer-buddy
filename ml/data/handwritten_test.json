@@ -1,0 +1,687 @@
+[
+{
+"text": "do you guys sell peanut butter",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "I'm looking for some good basmati rice",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "need a phone charger asap",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "something for a cold under 200 rupees",
+"intent": "recommend",
+"style": "en"
+},
+{
+"text": "show me shampoo under 250",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "cheapest cooking oil you have",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "I want eggs",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "Do you have sugar free biscuits?",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "power bank",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "my kid needs crayons for school",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "where's the milk",
+"intent": "locate",
+"style": "en"
+},
+{
+"text": "which aisle are the batteries in?",
+"intent": "locate",
+"style": "en"
+},
+{
+"text": "can't find the honey, where is it",
+"intent": "locate",
+"style": "en"
+},
+{
+"text": "take me to the ice cream please",
+"intent": "locate",
+"style": "en"
+},
+{
+"text": "where do you keep diapers",
+"intent": "locate",
+"style": "en"
+},
+{
+"text": "how do I get to the tomatoes",
+"intent": "locate",
+"style": "en"
+},
+{
+"text": "sunflower oil vs groundnut oil",
+"intent": "compare",
+"style": "en"
+},
+{
+"text": "which is healthier, oats or cornflakes?",
+"intent": "compare",
+"style": "en"
+},
+{
+"text": "compare the two rice options basmati and sona masoori",
+"intent": "compare",
+"style": "en"
+},
+{
+"text": "earphones or wireless earbuds, which should I buy",
+"intent": "compare",
+"style": "en"
+},
+{
+"text": "what are today's offers",
+"intent": "deals",
+"style": "en"
+},
+{
+"text": "anything on discount?",
+"intent": "deals",
+"style": "en"
+},
+{
+"text": "show me the best deals right now",
+"intent": "deals",
+"style": "en"
+},
+{
+"text": "is there an offer on detergent",
+"intent": "deals",
+"style": "en"
+},
+{
+"text": "what do I need for biryani",
+"intent": "recipe",
+"style": "en"
+},
+{
+"text": "I want to make sambar tonight, what should I get",
+"intent": "recipe",
+"style": "en"
+},
+{
+"text": "ingredients for upma please",
+"intent": "recipe",
+"style": "en"
+},
+{
+"text": "how do I make a veg sandwich",
+"intent": "recipe",
+"style": "en"
+},
+{
+"text": "add bread to my list",
+"intent": "add_to_list",
+"style": "en"
+},
+{
+"text": "put milk and eggs on my shopping list",
+"intent": "add_to_list",
+"style": "en"
+},
+{
+"text": "add two packs of chips",
+"intent": "add_to_list",
+"style": "en"
+},
+{
+"text": "save tissues to the list",
+"intent": "add_to_list",
+"style": "en"
+},
+{
+"text": "I have a sore throat, what should I buy",
+"intent": "recommend",
+"style": "en"
+},
+{
+"text": "suggest a healthy breakfast",
+"intent": "recommend",
+"style": "en"
+},
+{
+"text": "what's good for a movie night",
+"intent": "recommend",
+"style": "en"
+},
+{
+"text": "any recommendations for my kids lunchbox",
+"intent": "recommend",
+"style": "en"
+},
+{
+"text": "hello!",
+"intent": "greeting",
+"style": "en"
+},
+{
+"text": "what can you help me with",
+"intent": "greeting",
+"style": "en"
+},
+{
+"text": "thanks a lot buddy",
+"intent": "greeting",
+"style": "en"
+},
+{
+"text": "मुझे बासमती चावल चाहिए",
+"intent": "find",
+"style": "hi"
+},
+{
+"text": "क्या आपके पास शहद है",
+"intent": "find",
+"style": "hi"
+},
+{
+"text": "200 रुपये से कम का शैम्पू दिखाओ",
+"intent": "find",
+"style": "hi"
+},
+{
+"text": "चार्जर चाहिए",
+"intent": "find",
+"style": "hi"
+},
+{
+"text": "दूध कहाँ मिलेगा",
+"intent": "locate",
+"style": "hi"
+},
+{
+"text": "बैटरी किस तरफ़ रखी है",
+"intent": "locate",
+"style": "hi"
+},
+{
+"text": "आइसक्रीम तक कैसे पहुंचूं",
+"intent": "locate",
+"style": "hi"
+},
+{
+"text": "टमाटर कहाँ हैं",
+"intent": "locate",
+"style": "hi"
+},
+{
+"text": "ओट्स और कॉर्नफ्लेक्स में कौन बेहतर है",
+"intent": "compare",
+"style": "hi"
+},
+{
+"text": "सूरजमुखी तेल या मूंगफली तेल, कौन सस्ता",
+"intent": "compare",
+"style": "hi"
+},
+{
+"text": "आज कोई ऑफ़र चल रहा है क्या",
+"intent": "deals",
+"style": "hi"
+},
+{
+"text": "छूट वाले सामान बताइए",
+"intent": "deals",
+"style": "hi"
+},
+{
+"text": "चाय बनाने के लिए क्या लूँ",
+"intent": "recipe",
+"style": "hi"
+},
+{
+"text": "मुझे बिरयानी बनानी है क्या क्या चाहिए",
+"intent": "recipe",
+"style": "hi"
+},
+{
+"text": "दाल तड़का का सामान बताओ",
+"intent": "recipe",
+"style": "hi"
+},
+{
+"text": "ब्रेड को मेरी लिस्ट में जोड़ दो",
+"intent": "add_to_list",
+"style": "hi"
+},
+{
+"text": "अंडे और दूध लिस्ट में डाल दीजिए",
+"intent": "add_to_list",
+"style": "hi"
+},
+{
+"text": "सर्दी हो गई है कुछ बताओ",
+"intent": "recommend",
+"style": "hi"
+},
+{
+"text": "पार्टी के लिए क्या अच्छा रहेगा",
+"intent": "recommend",
+"style": "hi"
+},
+{
+"text": "कुछ हेल्दी नाश्ता सुझाइए",
+"intent": "recommend",
+"style": "hi"
+},
+{
+"text": "नमस्ते बडी",
+"intent": "greeting",
+"style": "hi"
+},
+{
+"text": "तुम क्या क्या कर सकते हो",
+"intent": "greeting",
+"style": "hi"
+},
+{
+"text": "నాకు పెరుగు కావాలి",
+"intent": "find",
+"style": "te"
+},
+{
+"text": "తేనె ఉందా మీ దగ్గర",
+"intent": "find",
+"style": "te"
+},
+{
+"text": "300 లోపు ఇయర్‌ఫోన్స్ చూపించండి",
+"intent": "find",
+"style": "te"
+},
+{
+"text": "ఛార్జర్ కావాలి",
+"intent": "find",
+"style": "te"
+},
+{
+"text": "పాలు ఎక్కడ ఉన్నాయి",
+"intent": "locate",
+"style": "te"
+},
+{
+"text": "బ్యాటరీలు ఏ వైపు ఉన్నాయి",
+"intent": "locate",
+"style": "te"
+},
+{
+"text": "ఐస్ క్రీమ్ దగ్గరికి ఎలా వెళ్ళాలి",
+"intent": "locate",
+"style": "te"
+},
+{
+"text": "ఉల్లిపాయలు ఎక్కడ దొరుకుతాయి",
+"intent": "locate",
+"style": "te"
+},
+{
+"text": "ఓట్స్ మరియు కార్న్‌ఫ్లేక్స్ లో ఏది మంచిది",
+"intent": "compare",
+"style": "te"
+},
+{
+"text": "సన్‌ఫ్లవర్ నూనె లేదా వేరుశెనగ నూనె ఏది చౌక",
+"intent": "compare",
+"style": "te"
+},
+{
+"text": "ఈరోజు ఏమైనా ఆఫర్లు ఉన్నాయా",
+"intent": "deals",
+"style": "te"
+},
+{
+"text": "తగ్గింపు ఉన్నవి చూపించండి",
+"intent": "deals",
+"style": "te"
+},
+{
+"text": "టీ చేయడానికి ఏమి కావాలి",
+"intent": "recipe",
+"style": "te"
+},
+{
+"text": "బిర్యానీ చేయాలి ఏమేమి కొనాలి",
+"intent": "recipe",
+"style": "te"
+},
+{
+"text": "సాంబార్ కి కావాల్సినవి చెప్పు",
+"intent": "recipe",
+"style": "te"
+},
+{
+"text": "బ్రెడ్ నా లిస్ట్ లో చేర్చండి",
+"intent": "add_to_list",
+"style": "te"
+},
+{
+"text": "గుడ్లు మరియు పాలు లిస్ట్ లో పెట్టు",
+"intent": "add_to_list",
+"style": "te"
+},
+{
+"text": "జలుబు చేసింది ఏమి కొనాలి",
+"intent": "recommend",
+"style": "te"
+},
+{
+"text": "పార్టీకి ఏమి తీసుకుంటే బాగుంటుంది",
+"intent": "recommend",
+"style": "te"
+},
+{
+"text": "హెల్తీ అల్పాహారం సూచించండి",
+"intent": "recommend",
+"style": "te"
+},
+{
+"text": "హలో బడ్డీ",
+"intent": "greeting",
+"style": "te"
+},
+{
+"text": "నువ్వు ఏమి చేయగలవు",
+"intent": "greeting",
+"style": "te"
+},
+{
+"text": "bhaiya doodh milega?",
+"intent": "find",
+"style": "hinglish"
+},
+{
+"text": "mujhe accha sa shampoo chahiye 300 tak",
+"intent": "find",
+"style": "hinglish"
+},
+{
+"text": "charger chahiye type c wala",
+"intent": "find",
+"style": "hinglish"
+},
+{
+"text": "kaju hai kya",
+"intent": "find",
+"style": "hinglish"
+},
+{
+"text": "doodh kahan rakha hai",
+"intent": "locate",
+"style": "hinglish"
+},
+{
+"text": "battery kidhar milegi",
+"intent": "locate",
+"style": "hinglish"
+},
+{
+"text": "ice cream wala section kahan hai",
+"intent": "locate",
+"style": "hinglish"
+},
+{
+"text": "aloo kahan hain bhai",
+"intent": "locate",
+"style": "hinglish"
+},
+{
+"text": "oats ya cornflakes kaunsa better",
+"intent": "compare",
+"style": "hinglish"
+},
+{
+"text": "sunflower oil aur groundnut oil mein kaunsa sasta hai",
+"intent": "compare",
+"style": "hinglish"
+},
+{
+"text": "aaj koi offer hai kya",
+"intent": "deals",
+"style": "hinglish"
+},
+{
+"text": "discount wali cheezein dikhao",
+"intent": "deals",
+"style": "hinglish"
+},
+{
+"text": "chai banane ke liye kya kya chahiye",
+"intent": "recipe",
+"style": "hinglish"
+},
+{
+"text": "biryani banani hai saman batao",
+"intent": "recipe",
+"style": "hinglish"
+},
+{
+"text": "poha kaise banta hai kya lena hoga",
+"intent": "recipe",
+"style": "hinglish"
+},
+{
+"text": "bread list mein daal do",
+"intent": "add_to_list",
+"style": "hinglish"
+},
+{
+"text": "ande aur doodh list me add karo",
+"intent": "add_to_list",
+"style": "hinglish"
+},
+{
+"text": "sardi ho gayi hai kuch batao",
+"intent": "recommend",
+"style": "hinglish"
+},
+{
+"text": "party ke liye snacks suggest karo",
+"intent": "recommend",
+"style": "hinglish"
+},
+{
+"text": "kuch healthy nashta batao",
+"intent": "recommend",
+"style": "hinglish"
+},
+{
+"text": "namaste buddy",
+"intent": "greeting",
+"style": "hinglish"
+},
+{
+"text": "tum kya kya kar sakte ho",
+"intent": "greeting",
+"style": "hinglish"
+},
+{
+"text": "anna paalu dorukutaya",
+"intent": "find",
+"style": "tenglish"
+},
+{
+"text": "naaku manchi shampoo kavali 300 lopu",
+"intent": "find",
+"style": "tenglish"
+},
+{
+"text": "charger kavali type c",
+"intent": "find",
+"style": "tenglish"
+},
+{
+"text": "jeedipappu unda",
+"intent": "find",
+"style": "tenglish"
+},
+{
+"text": "paalu ekkada pettaru",
+"intent": "locate",
+"style": "tenglish"
+},
+{
+"text": "battery ekkada dorukutundi",
+"intent": "locate",
+"style": "tenglish"
+},
+{
+"text": "ice cream section ekkada undi",
+"intent": "locate",
+"style": "tenglish"
+},
+{
+"text": "ullipayalu ekkada unnayi anna",
+"intent": "locate",
+"style": "tenglish"
+},
+{
+"text": "oats leda cornflakes edi better",
+"intent": "compare",
+"style": "tenglish"
+},
+{
+"text": "sunflower oil leda groundnut oil edi takkuva",
+"intent": "compare",
+"style": "tenglish"
+},
+{
+"text": "eeroju emaina offers unnaya",
+"intent": "deals",
+"style": "tenglish"
+},
+{
+"text": "discount unna items chupinchandi",
+"intent": "deals",
+"style": "tenglish"
+},
+{
+"text": "tea cheyyadaniki emi kavali",
+"intent": "recipe",
+"style": "tenglish"
+},
+{
+"text": "biryani cheyali emi konali",
+"intent": "recipe",
+"style": "tenglish"
+},
+{
+"text": "upma ki kavalsinavi cheppu",
+"intent": "recipe",
+"style": "tenglish"
+},
+{
+"text": "bread naa list lo cherchu",
+"intent": "add_to_list",
+"style": "tenglish"
+},
+{
+"text": "guddu mariyu paalu list lo pettandi",
+"intent": "add_to_list",
+"style": "tenglish"
+},
+{
+"text": "jalubu chesindi emi konali",
+"intent": "recommend",
+"style": "tenglish"
+},
+{
+"text": "party ki snacks suggest cheyyi",
+"intent": "recommend",
+"style": "tenglish"
+},
+{
+"text": "healthy tiffin cheppandi",
+"intent": "recommend",
+"style": "tenglish"
+},
+{
+"text": "hello anna buddy",
+"intent": "greeting",
+"style": "tenglish"
+},
+{
+"text": "nuvvu emi cheyagalavu",
+"intent": "greeting",
+"style": "tenglish"
+},
+{
+"text": "I'm out of toothpaste",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "got any dark chocolate?",
+"intent": "find",
+"style": "en"
+},
+{
+"text": "where can I grab some bananas",
+"intent": "locate",
+"style": "en"
+},
+{
+"text": "aisle for detergent?",
+"intent": "locate",
+"style": "en"
+},
+{
+"text": "chips or popcorn, which is cheaper",
+"intent": "compare",
+"style": "en"
+},
+{
+"text": "any deals on electronics today",
+"intent": "deals",
+"style": "en"
+},
+{
+"text": "planning dal tadka for dinner, what do I buy",
+"intent": "recipe",
+"style": "en"
+},
+{
+"text": "also add lemons to the list",
+"intent": "add_to_list",
+"style": "en"
+},
+{
+"text": "my throat hurts, any suggestions",
+"intent": "recommend",
+"style": "en"
+},
+{
+"text": "good morning",
+"intent": "greeting",
+"style": "en"
+}
+]

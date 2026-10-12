@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest==9.1.1
+httpx==0.28.1
+playwright==1.56.0
+trimesh==5.1.1
+pillow==12.3.0
+# training only (big download): pip install tensorflow-cpu==2.21.0
