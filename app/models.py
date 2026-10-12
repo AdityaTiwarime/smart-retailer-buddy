@@ -91,3 +91,17 @@ class Basket(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("srb_users.id"), index=True)
     items: Mapped[str] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+
+class GameRound(Base):
+    """One round of a mini-game. The answers live here, never in the browser, so rounds can't be faked."""
+    __tablename__ = "srb_game_rounds"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("srb_users.id"), index=True)
+    game: Mapped[str] = mapped_column(String(16), index=True)  # aisle_hunt | price_guess
+    payload: Mapped[str] = mapped_column(Text)
+    started_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime)
+    correct: Mapped[int] = mapped_column(Integer, default=0)
+    score: Mapped[int] = mapped_column(Integer, default=0)
+    seconds: Mapped[float] = mapped_column(Float, default=0)

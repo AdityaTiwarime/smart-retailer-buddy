@@ -8,7 +8,7 @@ in **AR** on the shopper's table, and points, badges and streaks keep them comin
 Built from the idea I presented at the **Walmart Global Tech Hackathon 2025**. The store in the demo,
 *FreshCart Market*, is fictional.
 
-**Live demo:** _add your Render link here_ · Click **Start shopping** (no sign-up), or use the demo accounts:
+**Live demo:** https://smart-retailer-buddy.onrender.com · Click **Start shopping** (no sign-up), or use the demo accounts:
 
 | Role | Email | Password |
 |---|---|---|
@@ -37,10 +37,16 @@ Built from the idea I presented at the **Walmart Global Tech Hackathon 2025**. T
 - "Frequently bought together" and "Picked for you", from item-to-item similarity over shopping baskets
 - Learns from every shopping trip users finish
 
-**Gamification**
-- Points for asking, finding, using the map and AR, reviewing and finishing a list (with daily caps)
-- 12 badges (First Find, Polyglot, Home Chef, Speed Shopper, Week Warrior…), 5 levels, daily streak bonus,
-  store leaderboard
+**Gamification and mini-games**
+- **Aisle Hunt**: Buddy names 3 products and you tap the aisle each one is in, against the clock
+  (100 points per right aisle + speed bonus). It teaches shoppers the store layout.
+- **Guess the Price**: 5 products, 4 prices each; pick the real one
+- Both games are scored on the server: the browser never sees the answers, the clock is the server's,
+  and a round can't be submitted twice or after 10 minutes
+- Personal bests and a leaderboard per game
+- Points for asking, finding, using the map and AR, reviewing, finishing a list and playing (with daily caps)
+- 15 badges (First Find, Polyglot, Home Chef, Speed Shopper, Aisle Ace, Price Pro, Week Warrior…), 5 levels,
+  daily streak bonus, store leaderboard
 
 **Store manager dashboard**
 - Questions per day, intents, languages, most-asked products, a heat map of demand per aisle
@@ -97,8 +103,8 @@ doesn't need the TensorFlow runtime and answers in milliseconds.
 ```bash
 pip install -r requirements-dev.txt
 uvicorn app.main:app --reload            # http://localhost:8000
-pytest -q                                # 28 tests
-python tests/e2e_browser.py http://localhost:8000 ./shots   # 39 checks in a real browser
+pytest -q                                # 32 tests
+python tests/e2e_browser.py http://localhost:8000 ./shots   # 44 checks in a real browser
 ```
 
 Optional: set `OPENAI_API_KEY` to let GPT parse requests (see `.env.example`). Without it, everything
@@ -114,12 +120,14 @@ python ml/make_models.py                                  # writes static/models
 
 ## Tests
 
-- `tests/test_buddy.py` (28 tests, SQLite and PostgreSQL): language detection, budgets in 3 languages,
+- `tests/test_buddy.py` (32 tests, SQLite and PostgreSQL): language detection, budgets in 3 languages,
   multi-item requests, Telugu word endings, model accuracy, routes never crossing a shelf, budget
   filters, recipes, comparisons, unknown products, GPT path and fallback, recommender vs best-sellers,
-  simulation, auth, points and badges, list and checkout, reviews, manager-only pages, input limits
-- `tests/e2e_browser.py` (39 checks): every screen on a phone-sized browser, voice input (simulated
-  speech), AR directions (simulated camera), 3D model loading, reviews, list, rewards, settings,
+  simulation, auth, points and badges, list and checkout, reviews, manager-only pages, input limits,
+  game scoring, answers never sent to the browser, and cheating attempts (other players' rounds, double
+  submits, expired rounds), daily point caps
+- `tests/e2e_browser.py` (44 checks): every screen on a phone-sized browser, voice input (simulated
+  speech), AR directions (simulated camera), 3D model loading, reviews, list, both mini-games, rewards, settings,
   Telugu/Hindi interface, dark mode, the manager dashboard, and script-injection attempts
 
 ## Tech stack

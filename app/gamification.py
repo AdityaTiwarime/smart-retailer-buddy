@@ -9,7 +9,7 @@ from .store import PRODUCTS
 
 POINTS = {"ask": 5, "found": 5, "map": 5, "ar": 10, "list_add": 2, "review": 15, "list_complete": 50,
           "recipe_add": 10, "compare": 5, "deal_view": 2}
-DAILY_CAP = {"ask": 20, "found": 20, "map": 10, "ar": 5, "list_add": 25, "compare": 6, "deal_view": 5, "recipe_add": 5}
+DAILY_CAP = {"game": 8, "ask": 20, "found": 20, "map": 10, "ar": 5, "list_add": 25, "compare": 6, "deal_view": 5, "recipe_add": 5}
 
 LEVELS = [(0, "Bronze", "🥉"), (150, "Silver", "🥈"), (400, "Gold", "🥇"), (800, "Platinum", "💎"), (1500, "Diamond", "👑")]
 
@@ -26,6 +26,9 @@ BADGES = {
     "speed_shopper": ("Speed Shopper", "⚡", "Finished a list of 5+ items"),
     "streak_3": ("On a Roll", "🔥", "3-day streak"),
     "streak_7": ("Week Warrior", "🏆", "7-day streak"),
+    "game_on": ("Game On", "🎮", "Played your first mini-game"),
+    "aisle_ace": ("Aisle Ace", "🎯", "Perfect Aisle Hunt in under 20 seconds"),
+    "price_pro": ("Price Pro", "🏷️", "Guessed all 5 prices right"),
 }
 
 
@@ -72,11 +75,13 @@ def touch_streak(db: Session, user: User) -> int:
     return bonus
 
 
-def award(db: Session, user: User, kind: str, product_key: str | None = None) -> dict:
-    """Record an action, give points (with daily caps) and any badges it unlocks."""
+def award(db: Session, user: User, kind: str, product_key: str | None = None, points: int | None = None,
+          badges: tuple = ()) -> dict:
+    """Record an action, give points (with daily caps) and any badges it unlocks.
+    points overrides the fixed table (games score by performance); badges are extra ones earned."""
     new_badges: list = []
     bonus = touch_streak(db, user)
-    pts = POINTS.get(kind, 0)
+    pts = POINTS.get(kind, 0) if points is None else max(0, int(points))
     if kind in DAILY_CAP and _today_count(db, user, kind) >= DAILY_CAP[kind]:
         pts = 0
     db.add(Event(user_id=user.id, kind=kind, product_key=product_key, points=pts))
@@ -108,6 +113,8 @@ def award(db: Session, user: User, kind: str, product_key: str | None = None) ->
             _give_badge(db, user, "deal_hunter", new_badges)
     if kind == "list_complete":
         _give_badge(db, user, "speed_shopper", new_badges)
+    for code in badges:
+        _give_badge(db, user, code, new_badges)
     if user.streak >= 3:
         _give_badge(db, user, "streak_3", new_badges)
     if user.streak >= 7:

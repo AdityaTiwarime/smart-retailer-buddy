@@ -416,3 +416,43 @@ p { margin: 0; }
 
 /* during AR directions, points pop up at the top so they don't cover the instructions */
 body.in-ar .toasts { top: calc(80px + env(safe-area-inset-top)); bottom: auto; }
+
+/* ---------- games ---------- */
+.game-cards { display: grid; gap: 14px; }
+@media (min-width: 760px) { .game-cards { grid-template-columns: 1fr 1fr; } }
+.game-card { display: grid; gap: 10px; padding: 18px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); }
+.game-card .icon { width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; font-size: 1.8rem; background: var(--tag); }
+.game-card.hunt .icon { background: var(--basil); }
+.game-card .best { color: var(--ink-3); font-size: .9rem; }
+.play-banner { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: var(--r-lg); background: var(--tag); color: var(--tag-ink);
+  text-decoration: none; }
+.play-banner .icon { font-size: 2rem; }
+.play-banner b { font: 800 1.15rem var(--display); display: block; }
+.game-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+.timer { font: 800 2rem/1 var(--display); font-variant-numeric: tabular-nums; }
+.dots { display: flex; gap: 6px; }
+.dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--surface-2); border: 1.5px solid var(--line); }
+.dots i.done { background: var(--basil); border-color: var(--basil); }
+.target { display: flex; gap: 14px; align-items: center; padding: 14px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); }
+.target .thumb { width: 84px; height: 84px; border-radius: 16px; display: grid; place-items: center; font-size: 3rem; flex: none; }
+.target h2 { font-size: 1.4rem; }
+.aisle-pick { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 14px; }
+
+.aisle-pick button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 8px 4px; border-radius: 12px; border: 1.5px solid var(--line);
+  background: var(--surface); cursor: pointer; text-align: left; font-weight: 600; font-size: .85rem; line-height: 1.2; min-height: 56px; }
+.aisle-pick button:hover { border-color: var(--basil); }
+.aisle-pick .num { width: 34px; height: 34px; flex: none; border-radius: 8px; background: var(--basil); color: #fff; display: grid; place-items: center;
+  font: 800 1.1rem var(--display); }
+:root[data-theme="dark"] .aisle-pick .num { color: #0F1714; }
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.options button { min-height: 64px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--surface); cursor: pointer;
+  font: 800 1.5rem var(--display); }
+.options button:hover { border-color: var(--basil); }
+.result-score { font: 800 3.4rem/1 var(--display); color: var(--basil); }
+.result-row { display: grid; grid-template-columns: 40px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.result-row .ok { color: var(--basil); font-weight: 800; }
+.result-row .no { color: var(--chili); font-weight: 800; }
+.pop { animation: pop .25s ease-out; }
+@keyframes pop { from { transform: scale(.96); opacity: .4; } }
+.game-map .walk { fill: var(--surface) !important; }  /* plain aisles in the game: no colour hints */
+.game-map .walk:hover { fill: var(--basil-soft) !important; }

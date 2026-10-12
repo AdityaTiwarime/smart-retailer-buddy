@@ -12,7 +12,7 @@ from pydantic import BaseModel, EmailStr, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from . import ai, simulation
+from . import ai, games, simulation
 from .assistant import SUGGEST, answer
 from .database import Base, SessionLocal, engine, get_db
 from .gamification import BADGES, award, badge_out, level_for
@@ -428,7 +428,7 @@ def rewards(user: User = Depends(current_user), db: Session = Depends(get_db)):
     board = db.scalars(select(User).where(User.role == "shopper").order_by(User.points.desc(), User.id).limit(10))
     labels = {"ask": "Asked Buddy", "found": "Found a product", "map": "Used the store map", "ar": "Viewed in AR",
               "list_add": "Added to list", "review": "Wrote a review", "list_complete": "Finished a shopping trip",
-              "recipe_add": "Added a recipe", "compare": "Compared products", "deal_view": "Checked deals",
+              "recipe_add": "Added a recipe", "compare": "Compared products", "deal_view": "Checked deals", "game": "Played a mini-game",
               "daily": "Daily visit bonus"}
     return {"user": user_out(user, db),
             "badges": [{**badge_out(c, c in earned), "date": earned[c].date().isoformat() if c in earned else None}
@@ -440,7 +440,7 @@ def rewards(user: User = Depends(current_user), db: Session = Depends(get_db)):
 
 
 def leaderboard(db: Session, user: User, top: list) -> list:
-    short = lambda u: u.name.split()[0] + (f" {u.name.split()[1][0]}." if len(u.name.split()) > 1 else "")
+    short = lambda u: u.name if u.name.startswith("Guest ") else u.name.split()[0] + (f" {u.name.split()[1][0]}." if len(u.name.split()) > 1 else "")
     rows = [{"rank": i + 1, "name": short(u), "points": u.points, "level": level_for(u.points)["name"], "me": u.id == user.id}
             for i, u in enumerate(top)]
     if user.role == "shopper" and not any(r["me"] for r in rows):  # always show where you stand
@@ -495,6 +495,37 @@ def analytics(user: User = Depends(require("manager")), db: Session = Depends(ge
 @app.get("/api/manager/simulation")
 def sim(seed: int = 2025, user: User = Depends(require("manager"))):
     return simulation.run(n=1000, seed=max(0, min(seed, 10_000)))
+
+
+# ---------------------------------------------------------------- mini-games
+class FinishIn(BaseModel):
+    round_id: int
+    answers: list[int] = Field(min_length=1, max_length=10)
+
+
+@app.get("/api/games")
+def games_overview(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return games.overview(db, user)
+
+
+@app.post("/api/games/aisle-hunt/start")
+def aisle_hunt_start(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return games.start_aisle_hunt(db, user)
+
+
+@app.post("/api/games/aisle-hunt/finish")
+def aisle_hunt_finish(body: FinishIn, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return games.finish_aisle_hunt(db, user, body.round_id, body.answers)
+
+
+@app.post("/api/games/price/start")
+def price_start(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return games.start_price_guess(db, user)
+
+
+@app.post("/api/games/price/finish")
+def price_finish(body: FinishIn, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return games.finish_price_guess(db, user, body.round_id, body.answers)
 
 
 @app.get("/api/health")

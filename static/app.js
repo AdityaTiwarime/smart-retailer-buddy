@@ -227,6 +227,8 @@ async function homePage(m) {
       <div class="card"><b>${esc(t('your_streak', { n: u.streak }))}</b><div class="week">${days}</div>
         <p class="small muted" style="margin-top:8px">${esc(t('streak_hint'))}</p></div>
     </div>
+    <a class="play-banner section" href="#/play"><span class="icon" aria-hidden="true">🎯</span><span><b>${esc(t('aisle_hunt'))} · ${esc(t('price_guess'))}</b>
+      <span class="small">${esc(t('games'))}</span></span></a>
     <section class="section"><div class="section-head"><h2>${esc(t('todays_deals'))}</h2><a href="#/deals">${esc(t('see_all'))}</a></div>${row(h.deals)}</section>
     <section class="section"><div class="section-head"><h2>${esc(h.personal ? t('for_you') : t('popular'))}</h2></div>${row(h.for_you)}</section>
     ${h.trending.length ? `<section class="section"><div class="section-head"><h2>${esc(t('trending'))}</h2></div>${row(h.trending)}</section>` : ''}
@@ -451,6 +453,8 @@ async function rewardsPage(m) {
       <p class="small" style="margin-top:8px;opacity:.9">${lv.next ? esc(t('to_next', { n: lv.next_at - u.points, next: lv.next })) : '👑'}</p></div>
     <div class="card streak-card"><span class="flame" aria-hidden="true">🔥</span><div><b style="font-size:1.3rem">${esc(t('your_streak', { n: u.streak }))}</b>
       <p class="small muted">Best: ${u.best_streak} · ${esc(t('streak_hint'))}</p></div></div></div>
+    <a class="play-banner section" href="#/play"><span class="icon" aria-hidden="true">🎮</span><span><b>${esc(t('games'))}</b>
+      <span class="small">${esc(t('aisle_hunt'))} · ${esc(t('price_guess'))}</span></span></a>
     <section class="section"><div class="section-head"><h2>${esc(t('badges'))}</h2><span class="muted small">${u.badges_earned}/${u.badges_total}</span></div>
       <div class="badges">${r.badges.map(b => `<div class="badge ${b.earned ? '' : 'locked'}"><div class="ico" aria-hidden="true">${esc(b.icon)}</div>
         <b>${esc(b.name)}</b><small>${esc(b.description)}</small>${b.earned ? '' : '<span class="sr">(locked)</span>'}</div>`).join('')}</div></section>
@@ -567,6 +571,115 @@ function settingsPage(m) {
   $('[data-logout]', m).onclick = () => { store.set('buddy_token', null); thread = []; saveThread(); location.hash = '#/welcome'; boot(); };
 }
 
+
+// ---------------------------------------------------------------- mini-games
+function boardHTML(rows, unit = '') {
+  return rows.length ? `<ol style="list-style:none;padding:0;margin:0">${rows.map(x =>
+    `<li class="${x.me ? 'me' : ''}" style="display:grid;grid-template-columns:28px 1fr auto;gap:10px;padding:8px 4px;border-bottom:1px solid var(--line)">
+      <span class="rank">${x.rank}</span><span>${esc(x.name)}${x.me ? ' (you)' : ''}</span><b>${x.score}${unit}</b></li>`).join('')}</ol>`
+    : '<p class="muted small">No scores yet. Be the first.</p>';
+}
+
+async function playPage(m) {
+  const g = await api('/api/games');
+  m.innerHTML = `<div class="page-head"><div><h1>${esc(t('games'))}</h1><p>${esc(t('games_played', { n: g.played }))} · ${esc(t('game_tip'))}</p></div></div>
+    <div class="game-cards">
+      <div class="game-card hunt"><span class="icon" aria-hidden="true">🎯</span><h2>${esc(t('aisle_hunt'))}</h2><p>${esc(t('hunt_desc'))}</p>
+        <p class="best">${esc(t('your_best'))}: <b>${g.aisle_hunt.best}</b></p>
+        <a class="btn btn-primary" href="#/play/aisle">${esc(t('play_now'))}</a></div>
+      <div class="game-card"><span class="icon" aria-hidden="true">🏷️</span><h2>${esc(t('price_guess'))}</h2><p>${esc(t('price_desc'))}</p>
+        <p class="best">${esc(t('your_best'))}: <b>${g.price_guess.best}</b></p>
+        <a class="btn btn-primary" href="#/play/price">${esc(t('play_now'))}</a></div>
+    </div>
+    <div class="two-col section">
+      <div class="card board"><h2 style="margin-bottom:8px">🎯 ${esc(t('aisle_hunt'))}</h2>${boardHTML(g.aisle_hunt.leaderboard)}</div>
+      <div class="card board"><h2 style="margin-bottom:8px">🏷️ ${esc(t('price_guess'))}</h2>${boardHTML(g.price_guess.leaderboard)}</div>
+    </div>`;
+}
+
+function gameResults(m, r, again) {
+  const rows = r.results.map(x => `<div class="result-row"><span style="font-size:1.6rem" aria-hidden="true">${esc(x.emoji)}</span>
+      <div><b>${esc(x.name)}</b><p class="small muted">${x.aisle !== undefined
+        ? (x.correct ? `${esc(t('aisle'))} ${x.aisle}` : `${esc(t('you_said', { a: x.answer || '–' }))} · ${esc(t('right_answer'))}: ${esc(t('aisle'))} ${x.aisle}`)
+        : (x.correct ? rupees(x.price) : `${esc(t('right_answer'))}: ${rupees(x.price)}`)}</p></div>
+      <span class="${x.correct ? 'ok' : 'no'}" aria-label="${x.correct ? 'correct' : 'wrong'}">${x.correct ? '✓' : '✗'}</span></div>`).join('');
+  m.innerHTML = `<div class="two-col pop">
+    <div class="card"><p class="muted">${esc(t('score'))}</p><p class="result-score">${r.score}</p>
+      <p style="margin-top:6px"><b>${esc(t('correct_of', { n: r.correct, t: r.total }))}</b> · ${esc(t('time_s', { n: Math.round(r.seconds) }))}</p>
+      ${r.new_best ? `<p class="pill" style="display:inline-block;margin-top:10px">🏆 ${esc(t('new_best'))}</p>` : `<p class="small muted" style="margin-top:8px">${esc(t('your_best'))}: ${r.best}</p>`}
+      <div style="margin-top:12px">${rows}</div>
+      <div class="btn-row" style="margin-top:16px"><a class="btn btn-primary" href="${again}" data-again>${esc(t('play_again'))}</a>
+        <a class="btn btn-ghost" href="#/play">${esc(t('all_games'))}</a></div></div>
+    <div class="card board"><h2 style="margin-bottom:8px">${esc(t('leaderboard'))}</h2>${boardHTML(r.leaderboard)}</div></div>`;
+  // "Play again" goes to the same URL, so re-run the game directly
+  $('[data-again]', m).onclick = e => { e.preventDefault(); route(); };
+  showRewards(r.rewards);
+  refreshMe().catch(() => {});
+}
+
+async function aisleHuntPage(m) {
+  const g = await api('/api/games/aisle-hunt/start', { method: 'POST' });
+  const answers = [];
+  const t0 = performance.now();
+  let timerId = null;
+  const tick = () => {
+    const el = $('#game-timer', m);
+    if (!el) { clearInterval(timerId); return; }
+    el.textContent = Math.floor((performance.now() - t0) / 1000) + 's';
+  };
+  const show = () => {
+    const i = answers.length;
+    if (i >= g.products.length) return finish();
+    const p = g.products[i];
+    m.innerHTML = `<div class="game-top"><div><h1 style="font-size:1.6rem">🎯 ${esc(t('aisle_hunt'))}</h1>
+        <div class="dots" aria-label="${i + 1} / ${g.products.length}">${g.products.map((_, j) => `<i class="${j < i ? 'done' : ''}"></i>`).join('')}</div></div>
+        <span class="timer" id="game-timer" aria-live="off">0s</span></div>
+      <div class="target pop"><span class="thumb" style="background:${esc(p.color)}" aria-hidden="true">${esc(p.emoji)}</span>
+        <div><p class="muted small">${esc(t('which_aisle'))}</p><h2>${esc(pname(p))}</h2><p class="muted small">${esc(p.unit)}</p></div></div>
+      <div class="map-wrap game-map" style="margin-top:14px">${mapSVG({ label: t('which_aisle') })}</div>
+      <div class="aisle-pick" role="group" aria-label="${esc(t('which_aisle'))}">${g.aisles.map(a =>
+        `<button data-pick="${a.aisle}" aria-label="${esc(t('aisle'))} ${a.aisle}: ${esc(a.name)}"><span class="num">${a.aisle}</span><span style="font-size:1.4rem" aria-hidden="true">${esc(a.emoji)}</span></button>`).join('')}</div>`;
+    tick();
+    const pick = n => { answers.push(n); show(); };
+    $$('[data-pick]', m).forEach(b => b.onclick = () => pick(+b.dataset.pick));
+    $$('.walk', m).forEach(w => {
+      w.onclick = () => pick(+w.dataset.aisle);
+      w.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(+w.dataset.aisle); } };
+    });
+  };
+  const finish = async () => {
+    clearInterval(timerId);
+    m.innerHTML = '<div class="empty"><div class="typing"><span></span><span></span><span></span></div></div>';
+    gameResults(m, await api('/api/games/aisle-hunt/finish', { method: 'POST', body: { round_id: g.round_id, answers } }), '#/play/aisle');
+  };
+  show();
+  timerId = setInterval(tick, 250);
+  window.addEventListener('hashchange', () => clearInterval(timerId), { once: true });
+}
+
+async function priceGamePage(m) {
+  const g = await api('/api/games/price/start', { method: 'POST' });
+  const answers = [];
+  const show = () => {
+    const i = answers.length;
+    if (i >= g.questions.length) return finish();
+    const q = g.questions[i], p = q.product;
+    m.innerHTML = `<div class="game-top"><div><h1 style="font-size:1.6rem">🏷️ ${esc(t('price_guess'))}</h1>
+        <div class="dots" aria-label="${i + 1} / ${g.questions.length}">${g.questions.map((_, j) => `<i class="${j < i ? 'done' : ''}"></i>`).join('')}</div></div>
+        <span class="muted">${i + 1} / ${g.questions.length}</span></div>
+      <div class="target pop"><span class="thumb" style="background:${esc(p.color)}" aria-hidden="true">${esc(p.emoji)}</span>
+        <div><p class="muted small">${esc(t('how_much'))}</p><h2>${esc(pname(p))}</h2><p class="muted small">${esc(p.unit)}</p></div></div>
+      <div class="options" role="group" aria-label="${esc(t('how_much'))}">${q.options.map((o, j) => `<button data-opt="${j}">${rupees(o)}</button>`).join('')}</div>`;
+    $$('[data-opt]', m).forEach(b => b.onclick = () => { answers.push(+b.dataset.opt); show(); });
+    $('[data-opt]', m).focus();
+  };
+  const finish = async () => {
+    m.innerHTML = '<div class="empty"><div class="typing"><span></span><span></span><span></span></div></div>';
+    gameResults(m, await api('/api/games/price/finish', { method: 'POST', body: { round_id: g.round_id, answers } }), '#/play/price');
+  };
+  show();
+}
+
 // ---------------------------------------------------------------- welcome / auth
 function welcome(mode = 'login') {
   $('#app').hidden = true;
@@ -615,6 +728,7 @@ const ROUTES = {
   nav: (m, p) => navPage(m, p), list: m => listPage(m), rewards: m => rewardsPage(m), deals: (m, p) => dealsPage(m, p),
   aisle: (m, p, arg) => aislePage(m, arg), compare: (m, p) => comparePage(m, p), manager: (m, p) => managerPage(m, p),
   settings: m => settingsPage(m),
+  play: (m, p, arg) => (arg === 'aisle' ? aisleHuntPage(m) : arg === 'price' ? priceGamePage(m) : playPage(m)),
 };
 
 async function route() {

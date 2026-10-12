@@ -159,6 +159,36 @@ with sync_playwright() as p:
     check("finishing a trip clears the list", "empty" in pg.inner_text("#main").lower())
     close_modal(pg)
 
+    # ---- mini-games
+    pg.goto(BASE + "/#/play")
+    pg.wait_for_selector(".game-card")
+    check("games hub shows both games", pg.locator(".game-card").count() == 2)
+    pg.click("a[href='#/play/aisle']")
+    pg.wait_for_selector("[data-pick]")
+    pg.wait_for_timeout(1200)
+    check("Aisle Hunt timer runs", pg.inner_text("#game-timer") != "0s")
+    pg.screenshot(path=str(SHOTS / "6_aisle_hunt.png"))
+    for _ in range(3):  # answer each product by tapping the aisle its name suggests (any aisle works)
+        pg.locator("[data-pick]").nth(_ % 10).click()
+        pg.wait_for_timeout(150)
+    pg.wait_for_selector(".result-score", timeout=10000)
+    close_modal(pg)
+    check("Aisle Hunt shows score, answers and leaderboard",
+          pg.locator(".result-row").count() == 3 and "(you)" in pg.inner_text(".board"))
+    pg.screenshot(path=str(SHOTS / "7_aisle_hunt_result.png"), full_page=True)
+    pg.click("[data-again]")
+    pg.wait_for_selector("[data-pick]")
+    check("Play again starts a new round", pg.locator(".dots i.done").count() == 0)
+    pg.goto(BASE + "/#/play/price")
+    pg.wait_for_selector("[data-opt]")
+    pg.screenshot(path=str(SHOTS / "8_price_game.png"))
+    for _ in range(5):
+        pg.locator("[data-opt]").first.click()
+        pg.wait_for_timeout(120)
+    pg.wait_for_selector(".result-score", timeout=10000)
+    close_modal(pg)
+    check("Guess the Price reveals the real prices", pg.locator(".result-row").count() == 5 and "₹" in pg.inner_text("#main"))
+
     # ---- rewards & deals
     pg.goto(BASE + "/#/rewards")
     pg.wait_for_selector(".badges")

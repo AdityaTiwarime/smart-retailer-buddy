@@ -203,3 +203,73 @@ def test_manager_only_and_input_limits(client):
     assert client.post("/api/ask", json={"text": "x" * 301}, headers=h).status_code == 422
     assert client.post("/api/events", json={"kind": "hack"}, headers=h).status_code == 422
     assert client.get("/api/products/does-not-exist").status_code == 404
+
+
+# ---------------------------------------------------------------- mini-games
+def _round_answers(round_id):
+    from app.database import SessionLocal
+    from app.models import GameRound
+    with SessionLocal() as db:
+        return json.loads(db.get(GameRound, round_id).payload)
+
+
+def test_aisle_hunt_scoring_and_no_answer_leak(client):
+    h = guest(client)
+    g = client.post("/api/games/aisle-hunt/start", headers=h).json()
+    assert len(g["products"]) == 3 and all("aisle" not in p and "category" not in p for p in g["products"])
+    keys = _round_answers(g["round_id"])["keys"]
+    assert len({PRODUCTS[k]["aisle"] for k in keys}) == 3  # three different aisles
+    r = client.post("/api/games/aisle-hunt/finish", headers=h,
+                    json={"round_id": g["round_id"], "answers": [PRODUCTS[k]["aisle"] for k in keys]}).json()
+    assert r["correct"] == 3 and r["score"] > 300 and r["new_best"]
+    assert {"game_on", "aisle_ace"} <= {b["code"] for b in r["rewards"]["badges"]}
+    g2 = client.post("/api/games/aisle-hunt/start", headers=h).json()
+    keys2 = _round_answers(g2["round_id"])["keys"]
+    wrong = [(PRODUCTS[k]["aisle"] % 10) + 1 for k in keys2]
+    r2 = client.post("/api/games/aisle-hunt/finish", headers=h, json={"round_id": g2["round_id"], "answers": wrong}).json()
+    assert r2["correct"] == 0 and r2["score"] == 0 and not r2["new_best"] and r2["best"] == r["score"]
+
+
+def test_price_guess_scoring(client):
+    h = guest(client)
+    g = client.post("/api/games/price/start", headers=h).json()
+    assert len(g["questions"]) == 5 and "answers" not in json.dumps(g)
+    for q in g["questions"]:
+        assert len(set(q["options"])) == 4 and PRODUCTS[q["product"]["key"]]["price"] in q["options"]
+    right = _round_answers(g["round_id"])["answers"]
+    r = client.post("/api/games/price/finish", headers=h, json={"round_id": g["round_id"], "answers": right}).json()
+    assert r["score"] == 500 and "price_pro" in {b["code"] for b in r["rewards"]["badges"]}
+
+
+def test_games_cannot_be_cheated(client):
+    a, b = guest(client), guest(client)
+    g = client.post("/api/games/aisle-hunt/start", headers=a).json()
+    body = {"round_id": g["round_id"], "answers": [1, 2, 3]}
+    assert client.post("/api/games/aisle-hunt/finish", headers=b, json=body).status_code == 404   # someone else's round
+    assert client.post("/api/games/price/finish", headers=a, json=body).status_code == 404        # wrong game
+    assert client.post("/api/games/aisle-hunt/finish", headers=a, json={**body, "answers": [1]}).status_code == 422
+    assert client.post("/api/games/aisle-hunt/finish", headers=a, json=body).status_code == 200
+    assert client.post("/api/games/aisle-hunt/finish", headers=a, json=body).status_code == 409   # can't submit twice
+    from datetime import timedelta
+    from app.database import SessionLocal
+    from app.models import GameRound
+    g2 = client.post("/api/games/aisle-hunt/start", headers=a).json()
+    with SessionLocal() as db:
+        r = db.get(GameRound, g2["round_id"])
+        r.started_at -= timedelta(minutes=11)
+        db.commit()
+    assert client.post("/api/games/aisle-hunt/finish", headers=a,
+                       json={"round_id": g2["round_id"], "answers": [1, 2, 3]}).status_code == 410  # expired
+
+
+def test_game_points_capped_per_day(client):
+    h = guest(client)
+    earned = []
+    for _ in range(10):
+        g = client.post("/api/games/price/start", headers=h).json()
+        right = _round_answers(g["round_id"])["answers"]
+        r = client.post("/api/games/price/finish", headers=h, json={"round_id": g["round_id"], "answers": right}).json()
+        earned.append(r["rewards"]["points"] - r["rewards"].get("daily_bonus", 0))
+    assert earned[:8] == [25] * 8 and earned[8:] == [0, 0]
+    o = client.get("/api/games", headers=h).json()
+    assert o["played"] == 10 and o["price_guess"]["best"] == 500 and o["price_guess"]["leaderboard"]

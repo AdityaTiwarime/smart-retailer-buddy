@@ -43,6 +43,13 @@ export const rupees = n => '₹' + Number(n).toLocaleString('en-IN');
 // ---------------------------------------------------------------- translations (interface text)
 const I18N = {
   en: {
+    play: 'Play', games: 'Play & earn', aisle_hunt: 'Aisle Hunt', price_guess: 'Guess the Price',
+    hunt_desc: 'Buddy names 3 products. Tap the aisle each one is in, as fast as you can.',
+    price_desc: '5 products, 4 prices each. Pick the real one.', play_now: 'Play', your_best: 'Your best',
+    which_aisle: 'Which aisle is this in?', how_much: 'How much does this cost?', play_again: 'Play again',
+    all_games: 'All games', score: 'Score', time_s: '{n}s', new_best: 'New personal best!', correct_of: '{n} of {t} right',
+    you_said: 'You said aisle {a}', right_answer: 'Right answer', start_game: 'Start', games_played: '{n} games played',
+    game_tip: 'Up to 8 rounds a day earn points.',
     home: 'Home', map: 'Store map', ask: 'Ask', list: 'My list', rewards: 'Rewards', deals: 'Deals', dashboard: 'Dashboard', settings: 'Settings',
     hello: 'Hi {name}', hero: 'What are you looking for today?', ask_ph: 'Ask for anything… e.g. “honey”, “दूध कहाँ है?”',
     speak_lang: 'Speak in', listening: 'Listening… speak now', no_voice: 'Voice input needs Chrome or Edge. You can type instead.',
@@ -73,6 +80,13 @@ const I18N = {
     shopper_demo: 'Shopper', manager_demo: 'Store manager', use: 'use',
   },
   hi: {
+    play: 'खेलें', games: 'खेलें और कमाएँ', aisle_hunt: 'गलियारा खोज', price_guess: 'कीमत बताओ',
+    hunt_desc: 'बडी 3 चीज़ें बताएगा। जल्दी से बताइए हर चीज़ किस गलियारे में है।',
+    price_desc: '5 चीज़ें, हर एक के 4 दाम। असली दाम चुनिए।', play_now: 'खेलें', your_best: 'आपका सबसे अच्छा',
+    which_aisle: 'यह किस गलियारे में है?', how_much: 'इसकी कीमत क्या है?', play_again: 'फिर से खेलें',
+    all_games: 'सभी गेम', score: 'स्कोर', time_s: '{n} सेकंड', new_best: 'नया पर्सनल बेस्ट!', correct_of: '{t} में से {n} सही',
+    you_said: 'आपने गलियारा {a} कहा', right_answer: 'सही जवाब', start_game: 'शुरू करें', games_played: '{n} गेम खेले',
+    game_tip: 'रोज़ 8 राउंड तक पॉइंट मिलते हैं।',
     home: 'होम', map: 'स्टोर मैप', ask: 'पूछें', list: 'मेरी लिस्ट', rewards: 'इनाम', deals: 'ऑफ़र', dashboard: 'डैशबोर्ड', settings: 'सेटिंग्स',
     hello: 'नमस्ते {name}', hero: 'आज आप क्या ढूंढ रहे हैं?', ask_ph: 'कुछ भी पूछिए… जैसे “दूध कहाँ है?”',
     speak_lang: 'बोलने की भाषा', listening: 'सुन रहा हूँ… बोलिए', no_voice: 'आवाज़ के लिए Chrome या Edge चाहिए। आप टाइप भी कर सकते हैं।',
@@ -103,6 +117,13 @@ const I18N = {
     shopper_demo: 'ग्राहक', manager_demo: 'स्टोर मैनेजर', use: 'इस्तेमाल करें',
   },
   te: {
+    play: 'ఆడండి', games: 'ఆడండి & గెలవండి', aisle_hunt: 'ఐల్ వేట', price_guess: 'ధర ఊహించండి',
+    hunt_desc: 'బడ్డీ 3 వస్తువులు చెబుతుంది. ప్రతిదీ ఏ ఐల్‌లో ఉందో త్వరగా నొక్కండి.',
+    price_desc: '5 వస్తువులు, ఒక్కోదానికి 4 ధరలు. అసలు ధర ఎంచుకోండి.', play_now: 'ఆడండి', your_best: 'మీ బెస్ట్',
+    which_aisle: 'ఇది ఏ ఐల్‌లో ఉంది?', how_much: 'దీని ధర ఎంత?', play_again: 'మళ్ళీ ఆడండి',
+    all_games: 'అన్ని గేమ్‌లు', score: 'స్కోర్', time_s: '{n} సెకన్లు', new_best: 'కొత్త పర్సనల్ బెస్ట్!', correct_of: '{t}లో {n} సరైనవి',
+    you_said: 'మీరు ఐల్ {a} అన్నారు', right_answer: 'సరైన జవాబు', start_game: 'మొదలుపెట్టు', games_played: '{n} గేమ్‌లు ఆడారు',
+    game_tip: 'రోజుకు 8 రౌండ్ల వరకు పాయింట్లు వస్తాయి.',
     home: 'హోమ్', map: 'స్టోర్ మ్యాప్', ask: 'అడగండి', list: 'నా లిస్ట్', rewards: 'బహుమతులు', deals: 'ఆఫర్లు', dashboard: 'డాష్‌బోర్డ్', settings: 'సెట్టింగ్స్',
     hello: 'నమస్కారం {name}', hero: 'ఈరోజు మీరు ఏమి వెతుకుతున్నారు?', ask_ph: 'ఏదైనా అడగండి… ఉదా: “పాలు ఎక్కడ?”',
     speak_lang: 'మాట్లాడే భాష', listening: 'వింటున్నాను… మాట్లాడండి', no_voice: 'వాయిస్ కోసం Chrome లేదా Edge కావాలి. మీరు టైప్ కూడా చేయవచ్చు.',
